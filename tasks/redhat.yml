@@ -4,7 +4,6 @@
     name: "epel-release"
     state: "present"
   when: >
-        ansible_os_family == "RedHat" and
         ansible_distribution != "Fedora"
 
 - name: RedHat | Installing Pre-Reqs (RedHat)
@@ -12,13 +11,13 @@
     name: "{{ item }}"
     state: present
   with_items:
+    - 'git'
     - 'libffi-devel'
     - 'openssl-devel'
     - 'python-crypto'
     - 'python-devel'
     - 'python-setuptools'
   when: >
-        ansible_os_family == "RedHat" and
         ansible_distribution != "Fedora"
 
 - name: RedHat | Installing Pre-Reqs (Fedora)
@@ -26,6 +25,7 @@
     name: "{{ item }}"
     state: "present"
   with_items:
+    - 'git'
     - 'gmp-devel'
     - 'libffi-devel'
     - 'openssl-devel'
@@ -35,7 +35,6 @@
     - 'python-setuptools'
     - 'redhat-rpm-config'
   when: >
-        ansible_os_family == "RedHat" and
         ansible_distribution == "Fedora"
 
 - name: RedHat | Installing Python-Pip

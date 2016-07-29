@@ -17,7 +17,18 @@ Installs the following versions of Ansible in Python virtual environments..
 Requirements
 ------------
 
-None
+Python `2.x` `MUST` be installed on the following (Until Ansible supports Python `3.x`)...
+
+`Fedora 23+`
+```
+sudo dnf -y install python-devel python-dnf
+sudo dnf -y group install "C Development Tools and Libraries"
+```
+
+`Ubuntu 15.04+`
+```
+sudo apt-get -y install python-simplejson
+```
 
 Role Variables
 --------------

@@ -43,6 +43,17 @@
     dest: "{{ ansible_roles_dir }}/{{ item.dest }}"
   with_items: '{{ ansible_roles }}'
 
+- name: setup | Ensuring Ansible Playbooks Directory Exists {{ ansible_playbooks_dir }}
+  file:
+    path: "{{ ansible_playbooks_dir }}"
+    state: "directory"
+
+- name: setup | Cloning Ansible Playbook Repos to {{ ansible_playbooks_dir }}
+  git:
+    repo: "{{ item.repo }}"
+    dest: "{{ ansible_playbooks_dir }}/{{ item.dest }}"
+  with_items: '{{ ansible_playbooks }}'
+
 - name: setup | How-To
   debug:
     msg: >

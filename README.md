@@ -36,6 +36,10 @@ Role Variables
 ```
 ---
 # defaults file for ansible-control-machine
+ansible_playbooks:
+  - repo: 'https://github.com/mrlesmithjr/ansible-playbooks.git'
+    dest: 'mrlesmithjr'
+ansible_playbooks_dir: '/opt/playbooks'
 ansible_roles:
   - repo: 'https://github.com/mrlesmithjr/ansible-base.git'
     dest: 'ansible-base'

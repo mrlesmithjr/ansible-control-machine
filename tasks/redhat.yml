@@ -41,6 +41,10 @@
         "python-dnf",
         "python-setuptools",
         "python-virtualenv",
+        "python3-devel",
+        "python3-dnf",
+        "python3-setuptools",
+        "python3-virtualenv",
         "redhat-rpm-config",
       ]
     state: present

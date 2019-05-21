@@ -16,6 +16,7 @@
         "python-setuptools",
         "sshpass",
         "tree",
+        "virtualenv",
       ]
     state: present
   become: true

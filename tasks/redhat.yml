@@ -19,6 +19,7 @@
         "python-crypto",
         "python-devel",
         "python-setuptools",
+        "python-virtualenv",
       ]
     state: present
   become: true
@@ -39,9 +40,10 @@
         "python-devel",
         "python-dnf",
         "python-setuptools",
+        "python-virtualenv",
         "redhat-rpm-config",
       ]
-    state: "present"
+    state: present
   become: true
   register: result
   until: result is successful

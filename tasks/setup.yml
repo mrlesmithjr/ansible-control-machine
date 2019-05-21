@@ -9,7 +9,7 @@
 - name: setup | Installing Python Virtualenv Packages
   pip:
     name: ["httplib2", "virtualenv"]
-    state: "present"
+    state: present
   become: true
 
 - name: setup | Configuring Ansible Virtual Environments

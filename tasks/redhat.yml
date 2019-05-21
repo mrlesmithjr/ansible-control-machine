@@ -1,54 +1,71 @@
 ---
 - name: RedHat | Installing EPEL Repo (RedHat)
   yum:
-    name: "epel-release"
-    state: "present"
+    name: epel-release
+    state: present
+  become: true
+  register: result
+  until: result is successful
   when: >
-        ansible_distribution != "Fedora"
+    ansible_distribution != "Fedora"
 
 - name: RedHat | Installing Pre-Reqs (RedHat)
   yum:
-    name: "{{ item }}"
+    name:
+      [
+        "git",
+        "libffi-devel",
+        "openssl-devel",
+        "python-crypto",
+        "python-devel",
+        "python-setuptools",
+      ]
     state: present
-  with_items:
-    - 'git'
-    - 'libffi-devel'
-    - 'openssl-devel'
-    - 'python-crypto'
-    - 'python-devel'
-    - 'python-setuptools'
+  become: true
+  register: result
+  until: result is successful
   when: >
-        ansible_distribution != "Fedora"
+    ansible_distribution != "Fedora"
 
 - name: RedHat | Installing Pre-Reqs (Fedora)
   dnf:
-    name: "{{ item }}"
+    name:
+      [
+        "git",
+        "gmp-devel",
+        "libffi-devel",
+        "openssl-devel",
+        "python-crypto",
+        "python-devel",
+        "python-dnf",
+        "python-setuptools",
+        "redhat-rpm-config",
+      ]
     state: "present"
-  with_items:
-    - 'git'
-    - 'gmp-devel'
-    - 'libffi-devel'
-    - 'openssl-devel'
-    - 'python-crypto'
-    - 'python-devel'
-    - 'python-dnf'
-    - 'python-setuptools'
-    - 'redhat-rpm-config'
+  become: true
+  register: result
+  until: result is successful
   when: >
-        ansible_distribution == "Fedora"
+    ansible_distribution == "Fedora"
 
 - name: RedHat | Installing Python-Pip
   yum:
-    name: "python-pip"
-    state: "present"
+    name: python-pip
+    state: present
+  become: true
+  register: result
+  until: result is successful
   when: >
-        not easy_install_pip and
-        ansible_distribution != "Fedora"
+    not easy_install_pip and
+    ansible_distribution != "Fedora"
 
 - name: RedHat | Installing Python-Pip
   dnf:
-    name: "python-pip"
-    state: "present"
+    name: python-pip
+    state: present
+  become: true
+  register: result
+  until: result is successful
   when: >
-        not easy_install_pip and
-        ansible_distribution == "Fedora"
+    not easy_install_pip and
+    ansible_distribution == "Fedora"

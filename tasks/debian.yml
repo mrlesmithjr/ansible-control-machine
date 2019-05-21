@@ -3,22 +3,31 @@
   apt:
     update_cache: true
     cache_valid_time: 86400
+  become: true
 
 - name: Debian | Installing Pre-Reqs
   apt:
-    name: "{{ item }}"
-    state: "present"
-  with_items:
-    - 'git'
-    - 'libffi-dev'
-    - 'libssl-dev'
-    - 'python-dev'
-    - 'python-setuptools'
-    - 'sshpass'
-    - 'tree'
+    name:
+      [
+        "git",
+        "libffi-dev",
+        "libssl-dev",
+        "python-dev",
+        "python-setuptools",
+        "sshpass",
+        "tree",
+        "virtualenv",
+      ]
+    state: present
+  become: true
+  register: result
+  until: result is successful
 
 - name: Debian | Installing Python-Pip
   apt:
-    name: "python-pip"
-    state: "present"
+    name: python-pip
+    state: present
+  become: true
+  register: result
+  until: result is successful
   when: not easy_install_pip

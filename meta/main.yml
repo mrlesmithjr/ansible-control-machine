@@ -1,7 +1,7 @@
+---
 galaxy_info:
   author: Larry Smith Jr.
-  description: An Ansible role to configure an Ansible Control Machine
-
+  description: Ansible role to build an Ansible control machine
   license: MIT
 
   min_ansible_version: 1.2

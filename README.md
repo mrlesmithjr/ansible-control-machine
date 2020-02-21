@@ -1,27 +1,21 @@
 # ansible-control-machine
 
-An Ansible role to configure an Ansible Control Machine
-Installs the following versions of Ansible in Python virtual environments..
+Ansible role to build an Ansible control machine
 
-- `2.7.10`
-- `2.8.0`
+## Build Status
+
+### GitHub Actions
+
+![Molecule Test](https://github.com/mrlesmithjr/ansible-control-machine/workflows/Molecule%20Test/badge.svg)
+
+### Travis CI
+
+[![Build Status](https://travis-ci.org/mrlesmithjr/ansible-control-machine.svg?branch=master)](https://travis-ci.org/mrlesmithjr/ansible-control-machine)
 
 ## Requirements
 
-Python `2.x` `MUST` be installed on the following (Until Ansible supports Python `3.x`)...
-
-`Fedora 23+`
-
-```bash
-sudo dnf -y install python-devel python-dnf
-sudo dnf -y group install "C Development Tools and Libraries"
-```
-
-`Ubuntu 15.04+`
-
-```bash
-sudo apt-get -y install python-simplejson
-```
+For any required Ansible roles, review:
+[requirements.yml](requirements.yml)
 
 ## Role Variables
 
@@ -29,64 +23,9 @@ sudo apt-get -y install python-simplejson
 
 ## Dependencies
 
-None
-
 ## Example Playbook
 
-```yaml
----
-- hosts: all
-  become: true
-  vars:
-  roles:
-    - role: ansible-control-machine
-  tasks:
-```
-
-## Vagrant
-
-Included in the Vagrant/ folder you can spin up a usable Ansible control machine
-all contained within a Vagrant environment. Very useful for Windows machines to
-perform Ansible provisioning.
-
-```bash
-cd Vagrant
-vagrant up
-```
-
-Once the provisioning of the Vagrant box is complete you can begin using Ansible
-versions within the contained Python virtual environments.
-
-```bash
-vagrant ssh
-source /opt/ansible_virtualenvs/2.1.1.0/bin/activate
-```
-
-```bash
-vagrant@node0:~$ source /opt/ansible_virtualenvs/2.1.1.0/bin/activate
-(2.1.1.0) vagrant@node0:~$ ansible --version
-ansible 2.1.1.0
-  config file =
-  configured module search path = Default w/o overrides
-```
-
-As well as choose any of the previous versions of Ansible by replacing the version
-in the source command.
-
-```bash
-vagrant@node0:~$ source /opt/ansible_virtualenvs/1.9.6/bin/activate
-(1.9.6) vagrant@node0:~$ ansible --version
-ansible 1.9.6
-  configured module search path = None
-```
-
-Now pull down some Ansible roles and begin the fun.
-
-And when you are done and ready to cleanup.. Simply run the following:
-
-```bash
-./cleanup.sh
-```
+[playbook.yml](playbook.yml)
 
 ## License
 
@@ -96,6 +35,8 @@ MIT
 
 Larry Smith Jr.
 
-- [@mrlesmithjr](https://www.twitter.com/mrlesmithjr)
-- [EverythingShouldBeVirtual](http://everythingshouldbevirtual.com)
+- [@mrlesmithjr](https://twitter.com/mrlesmithjr)
 - [mrlesmithjr@gmail.com](mailto:mrlesmithjr@gmail.com)
+- [http://everythingshouldbevirtual.com](http://everythingshouldbevirtual.com)
+
+> NOTE: Repo has been created/updated using [https://github.com/mrlesmithjr/cookiecutter-ansible-role](https://github.com/mrlesmithjr/cookiecutter-ansible-role) as a template.

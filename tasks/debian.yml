@@ -1,33 +1,8 @@
 ---
-- name: Debian | Updating Apt-Cache
-  apt:
-    update_cache: true
-    cache_valid_time: 86400
-  become: true
-
 - name: Debian | Installing Pre-Reqs
   apt:
-    name:
-      [
-        "git",
-        "libffi-dev",
-        "libssl-dev",
-        "python-dev",
-        "python-setuptools",
-        "sshpass",
-        "tree",
-        "virtualenv",
-      ]
+    name: "{{ control_machine_pre_req_packages }}"
     state: present
   become: true
   register: result
   until: result is successful
-
-- name: Debian | Installing Python-Pip
-  apt:
-    name: python-pip
-    state: present
-  become: true
-  register: result
-  until: result is successful
-  when: not easy_install_pip

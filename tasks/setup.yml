@@ -1,63 +1,62 @@
 ---
-- name: setup | Installing Python Pip
-  easy_install:
-    name: pip
-    state: present
-  become: true
-  when: easy_install_pip|bool
-
-- name: setup | Installing Python Virtualenv Packages
+- name: setup | Creating Virtual Environments and Updating Important Libs # noqa 403
   pip:
-    name: ["httplib2", "virtualenv"]
-    state: present
+    name:
+      - pip
+      - cffi
+      - pyOpenSSL
+    state: latest
+    virtualenv: "{{ control_machine_virtualenv_dir+'/'+item['ver']|string }}"
   become: true
+  register: result
+  until: result is successful
+  loop: "{{ control_machine_ansible_versions }}"
 
-- name: setup | Configuring Ansible Virtual Environments
+- name: setup | Installing Ansible In Virtual Environments
   pip:
     name: ansible
-    version: "{{ item.ver |default (omit) }}"
-    virtualenv: "{{ ansible_virtualenv_dir }}/{{ item.ver }}"
+    version: "{{ item['ver'] }}"
+    virtualenv: "{{ control_machine_virtualenv_dir+'/'+item['ver']|string }}"
   become: true
-  with_items: "{{ ansible_versions }}"
+  register: result
+  until: result is successful
+  loop: "{{ control_machine_ansible_versions }}"
 
-- name: setup | Installing Additional Python Modules in Ansible Virtual Environments
+- name: setup | Installing Add'l Python Libs in Ansible Virtual Environments
   pip:
-    name: "{{ item.1 }}"
-    state: present
-    virtualenv: "{{ ansible_virtualenv_dir }}/{{ item.0.ver }}"
+    name: "{{ item[1]['name'] }}"
+    state: "{{ item[1]['state']|default('present') }}"
+    virtualenv: "{{ control_machine_virtualenv_dir+'/'+item[0]['ver']|string }}"
   become: true
-  with_subelements:
-    - "{{ ansible_versions }}"
-    - addl_modules
-  when: >
-    item.1 is defined and
-    item.1 != 'None'
+  loop: "{{ lookup('subelements', control_machine_ansible_versions, 'addl_modules', {'skip_missing': True}, wantlist=True) }}"
 
-- name: setup | Ensuring Ansible Roles Directory Exists {{ ansible_roles_dir }}
+- name: setup | Ensuring Ansible Roles Directory Exists {{ control_machine_roles_dir }}
   file:
-    path: "{{ ansible_roles_dir }}"
+    path: "{{ control_machine_roles_dir }}"
     state: directory
   become: true
-  when: clone_ansible_roles|bool
+  when: control_machine_clone_roles|bool
 
-- name: setup | Cloning Ansible Repos to {{ ansible_roles_dir }}
+- name: setup | Cloning Ansible Repos to {{ control_machine_roles_dir }} # noqa 401
   git:
-    repo: "{{ item.repo }}"
-    dest: "{{ ansible_roles_dir }}/{{ item.dest }}"
-  with_items: "{{ ansible_roles }}"
-  when: clone_ansible_roles
+    repo: "{{ item['repo'] }}"
+    dest: "{{ control_machine_roles_dir+'/'+item['dest'] }}"
+  become: true
+  loop: "{{ control_machine_roles }}"
+  when: control_machine_clone_roles|bool
 
-- name: setup | Ensuring Ansible Playbooks Directory Exists {{ ansible_playbooks_dir }}
+- name: setup | Ensuring Ansible Playbooks Directory Exists {{ control_machine_playbooks_dir }}
   file:
-    path: "{{ ansible_playbooks_dir }}"
+    path: "{{ control_machine_playbooks_dir }}"
     state: directory
   become: true
 
-- name: setup | Cloning Ansible Playbook Repos to {{ ansible_playbooks_dir }}
+- name: setup | Cloning Ansible Playbook Repos to {{ control_machine_playbooks_dir }} # noqa 401
   git:
-    repo: "{{ item.repo }}"
-    dest: "{{ ansible_playbooks_dir }}/{{ item.dest }}"
-  with_items: "{{ ansible_playbooks }}"
+    repo: "{{ item['repo'] }}"
+    dest: "{{ control_machine_playbooks_dir+'/'+item['dest'] }}"
+  become: true
+  loop: "{{ control_machine_playbooks }}"
 
 - name: setup | How-To
   debug:
@@ -65,4 +64,4 @@
       To use Ansible Virtual Environments...
       SSH to Ansible Control Machine...
       source the desired Ansible version as...  ex.
-      source {{ ansible_virtualenv_dir }}/2.1.0.0/bin/activate
+      source {{ control_machine_virtualenv_dir }}/2.9.5/bin/activate

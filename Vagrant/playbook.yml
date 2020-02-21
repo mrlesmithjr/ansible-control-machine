@@ -1,8 +1,0 @@
----
-- hosts: test-nodes
-  vars:
-    pri_domain_name: 'test.vagrant.local'
-  roles:
-    - role: ansible-control-machine
-      become: true
-  tasks:

@@ -1,0 +1,59 @@
+---
+- name: set_facts | Setting Debian/Ubuntu Pre-Reqs
+  set_fact:
+    control_machine_pre_req_packages:
+      - git
+      - python-dev
+      - python-pip
+      - python-setuptools
+      - python-virtualenv
+      - python3-dev
+      - python3-pip
+      - python3-setuptools
+      - python3-venv
+      - sshpass
+      - virtualenv
+  when:
+    - ansible_os_family == "Debian"
+    - ansible_python_version is version('3', '<')
+
+- name: set_facts | Setting Debian/Ubuntu Pre-Reqs
+  set_fact:
+    control_machine_pre_req_packages:
+      - git
+      - python3-dev
+      - python3-pip
+      - python3-setuptools
+      - python3-venv
+      - sshpass
+      - virtualenv
+  when:
+    - ansible_os_family == "Debian"
+    - ansible_python_version is version('3', '>=')
+
+- name: set_facts | Setting RedHat Facts
+  set_fact:
+    control_machine_pre_req_packages:
+      - git
+      - python-devel
+      - python-dnf
+      - python-pip
+      - python-setuptools
+      - python-virtualenv
+      - sshpass
+  when:
+    - ansible_os_family == "RedHat"
+    - ansible_python_version is version('3', '<')
+
+- name: set_facts | Setting RedHat Facts
+  set_fact:
+    control_machine_pre_req_packages:
+      - git
+      - python3-devel
+      - python3-pip
+      - python3-setuptools
+      - python3-virtualenv
+      - sshpass
+  when:
+    - ansible_os_family == "RedHat"
+    - ansible_python_version is version('3', '>=')

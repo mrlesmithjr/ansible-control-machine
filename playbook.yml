@@ -1,0 +1,12 @@
+---
+- name: Example Playbook
+  hosts: all
+  vars:
+    control_machine_ansible_versions:
+      # - ver: 2.8.5
+      - ver: 2.9.5
+      #   addl_modules:
+      #     - name: pyvmomi==6.7.3
+      #       state: present
+  roles:
+    - role: ansible-control-machine

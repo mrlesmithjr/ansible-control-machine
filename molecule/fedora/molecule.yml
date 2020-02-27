@@ -13,13 +13,13 @@ lint: |
 platforms:
   - name: fedora
     image: jrei/systemd-fedora
-    privileged: true
-    command: /usr/sbin/init
-    tmpfs:
-      - /run
-      - /tmp
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    # privileged: true
+    # command: /usr/sbin/init
+    # tmpfs:
+    #   - /run
+    #   - /tmp
+    # volumes:
+    #   - /sys/fs/cgroup:/sys/fs/cgroup:ro
 provisioner:
   name: ansible
   playbooks:
